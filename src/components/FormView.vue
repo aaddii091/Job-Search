@@ -4,7 +4,7 @@
       <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900">
-            Personal Information - ASU GSV ED Lightcast Demo
+            Personal Information
           </h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">
             Use a permanent address where you can receive mail.
@@ -47,7 +47,7 @@
               </div>
             </div>
 
-            <div class="sm:col-span-4">
+            <div class="sm:col-span-3">
               <label
                 for="email"
                 class="block text-sm font-medium leading-6 text-gray-900"
@@ -76,14 +76,14 @@
                   id="country"
                   name="country"
                   autocomplete="country-name"
-                  class="block w-full rounded-md border-0 py-2 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
                 >
                   <option>United States</option>
                   <option>Canada</option>
                 </select>
               </div>
             </div>
-
+            <!-- 
             <div class="col-span-full">
               <label
                 for="street-address"
@@ -100,9 +100,9 @@
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
                 />
               </div>
-            </div>
+            </div> -->
 
-            <div class="sm:col-span-2 sm:col-start-1">
+            <!-- <div class="sm:col-span-2 sm:col-start-1">
               <label
                 for="city"
                 class="block text-sm font-medium leading-6 text-gray-900"
@@ -154,7 +154,7 @@
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
                 />
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -181,10 +181,10 @@
       <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900">
-            Job Information - ASU GSV ED Lightcast Demo
+            Job Information
           </h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">
-            Fill up the below boxs
+            <!-- Fill up the below boxs -->
           </p>
 
           <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -275,6 +275,7 @@
                         name="file-upload"
                         type="file"
                         class="sr-only"
+                        required
                         v-on:change="fileUpload($event)"
                       />
                     </label>
@@ -369,10 +370,10 @@ function submitPersonalInfo() {
     lastName: document.getElementById("last-name").value,
     email: document.getElementById("email").value,
     country: document.getElementById("country").value,
-    street: document.getElementById("street-address").value,
-    city: document.getElementById("city").value,
-    state: document.getElementById("region").value,
-    pincode: document.getElementById("postal-code").value,
+    // street: document.getElementById("street-address").value,
+    // city: document.getElementById("city").value,
+    // state: document.getElementById("region").value,
+    // pincode: document.getElementById("postal-code").value,
   };
 
   // Call actions to update store
@@ -380,10 +381,10 @@ function submitPersonalInfo() {
   store.updateLastName(formData.lastName);
   store.updateEmail(formData.email);
   store.updateCountry(formData.country);
-  store.updateStreet(formData.street);
-  store.updateCity(formData.city);
-  store.updateState(formData.state);
-  store.updatePincode(formData.pincode);
+  // store.updateStreet(formData.street);
+  // store.updateCity(formData.city);
+  // store.updateState(formData.state);
+  // store.updatePincode(formData.pincode);
 
   // Move to next step
   nextStep();
