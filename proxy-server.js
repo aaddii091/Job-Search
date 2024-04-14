@@ -1,12 +1,11 @@
 import express from "express";
 import axios from "axios";
-
+import cors from "cors";
 const app = express();
 const PORT = 3000;
-const cors = require("cors")({ origin: true });
 
 // Set CORS headers to allow requests from your Vue.js application's origin
-app.use(cors);
+app.use(cors({ origin: true }));
 // Proxy endpoint
 app.get("/search", async (req, res) => {
   try {

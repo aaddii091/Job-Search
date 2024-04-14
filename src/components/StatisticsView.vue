@@ -154,7 +154,7 @@
           </div>
         </div>
       </div>
-      <div
+      <!-- <div
         class="bg-gray-50 p-8 min-h-[350px] flex flex-col items-center justify-center font-[sans-serif] text-[#333]"
       >
         <h2 class="text-3xl font-bold mb-14 text-center">
@@ -198,7 +198,7 @@
             </p>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- JOBS  -->
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg pt-10">
         <table
@@ -243,6 +243,7 @@
               <td class="px-6 py-4 text-slate-800">
                 <a
                   :href="job.related_links[0].link"
+                  target="_blank"
                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                   >Apply</a
                 >
@@ -326,8 +327,7 @@ uploadImage(localStorage.getItem("uploadedImage"));
 
 const fetchJobs = async () => {
   try {
-    const host = window.location.protocol + "//" + window.location.host;
-    const response = await axios.get(host + "/search", {
+    const response = await axios.get("http://localhost:3000/search", {
       params: {
         engine: "google_jobs",
         api_key:
