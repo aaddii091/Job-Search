@@ -326,7 +326,8 @@ uploadImage(localStorage.getItem("uploadedImage"));
 
 const fetchJobs = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/search", {
+    const host = window.location.protocol + "//" + window.location.host;
+    const response = await axios.get(host + "/search", {
       params: {
         engine: "google_jobs",
         api_key:
