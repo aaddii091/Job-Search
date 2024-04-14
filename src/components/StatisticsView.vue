@@ -14,8 +14,11 @@
             >
               {{ fullName }}
             </h1>
-            <p class="mt-4 text-md sm:text-center">
+            <p v-if="resumeAvailiable" class="mt-4 text-md sm:text-center">
               {{ description }}
+            </p>
+            <p v-if="!resumeAvailiable" class="mt-4 text-md sm:text-center">
+              {{ descriptionWithoutResume }}
             </p>
           </div>
           <div
@@ -266,7 +269,9 @@ const store = Storage();
 
 const loading = ref(false);
 const description = ref("");
+const descriptionWithoutResume = ref(store.aspiredPosition);
 const jobs = ref([]);
+const resumeAvailiable = ref(store.resumeUploaded);
 const fullName = computed(() => {
   return store.firstName + " " + store.lastName;
 });
@@ -323,9 +328,12 @@ const uploadImage = (base64Data) => {
       console.error(error);
     });
 };
-uploadImage(localStorage.getItem("uploadedImage"));
+if (store.resumeUploaded) {
+  uploadImage(localStorage.getItem("uploadedImage"));
+}
 
 const fetchJobs = async () => {
+  loading.value = true;
   try {
     const response = await axios.get("http://localhost:3000/search", {
       params: {
@@ -337,6 +345,7 @@ const fetchJobs = async () => {
     });
     jobs.value = response.data;
     console.log(jobs.value);
+    loading.value = false;
   } catch (error) {
     console.error("Error fetching jobs:", error);
   }

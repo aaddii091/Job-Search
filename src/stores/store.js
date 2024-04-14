@@ -16,6 +16,7 @@ export const Storage = defineStore({
     aspiredPosition: "",
     experienceCurrentPosition: "",
     processState: 1,
+    resumeUploaded: false,
 
     // Add more variables as needed
   }),
@@ -56,6 +57,9 @@ export const Storage = defineStore({
     },
     updateProcessState(newState) {
       this.processState = newState;
+    },
+    updateResume(newState) {
+      this.resumeUploaded = newState;
     },
     // Add more actions as needed
   },

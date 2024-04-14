@@ -275,7 +275,6 @@
                         name="file-upload"
                         type="file"
                         class="sr-only"
-                        required
                         v-on:change="fileUpload($event)"
                       />
                     </label>
@@ -413,6 +412,7 @@ function submitCareerInfo() {
 }
 
 function fileUpload(event) {
+  store.updateResume(true);
   console.log(event);
   changeTextColor();
   const file = event.target.files[0];
