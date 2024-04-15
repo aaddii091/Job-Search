@@ -60,9 +60,12 @@
                         />
                       </svg>
                     </div>
-                    <span class="text-md text-gray-800">{{
-                      currentskills
-                    }}</span>
+                    <span class="text-md text-gray-800">       <a
+                        :href="`https://schoolofunlearn.thoughtjumper.com/explore?q=${currentskills}`"
+                        target="_blank"
+                      >
+                        {{ currentskills }}
+                      </a></span>
                   </li>
                 </ul>
               </div>
@@ -102,9 +105,12 @@
                         />
                       </svg>
                     </div>
-                    <span class="text-md text-gray-800">{{
-                      common_skills
-                    }}</span>
+                    <span class="text-md text-gray-800">       <a
+                        :href="`https://schoolofunlearn.thoughtjumper.com/explore?q=${common_skills}`"
+                        target="_blank"
+                      >
+                        {{ common_skills }}
+                      </a></span>
                   </li>
                 </ul>
               </div>
@@ -147,9 +153,14 @@
                         />
                       </svg>
                     </div>
-                    <span class="text-md text-gray-800">{{
-                      required_skills
-                    }}</span>
+                    <span class="text-md text-gray-800">
+                      <a
+                        :href="`https://schoolofunlearn.thoughtjumper.com/explore?q=${required_skills}`"
+                        target="_blank"
+                      >
+                        {{ required_skills }}
+                      </a>
+                    </span>
                   </li>
                 </ul>
               </div>
