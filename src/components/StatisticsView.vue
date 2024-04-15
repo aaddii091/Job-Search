@@ -60,12 +60,14 @@
                         />
                       </svg>
                     </div>
-                    <span class="text-md text-gray-800">       <a
+                    <span class="text-md text-gray-800">
+                      <a
                         :href="`https://schoolofunlearn.thoughtjumper.com/explore?q=${currentskills}`"
                         target="_blank"
                       >
                         {{ currentskills }}
-                      </a></span>
+                      </a></span
+                    >
                   </li>
                 </ul>
               </div>
@@ -105,12 +107,14 @@
                         />
                       </svg>
                     </div>
-                    <span class="text-md text-gray-800">       <a
+                    <span class="text-md text-gray-800">
+                      <a
                         :href="`https://schoolofunlearn.thoughtjumper.com/explore?q=${common_skills}`"
                         target="_blank"
                       >
                         {{ common_skills }}
-                      </a></span>
+                      </a></span
+                    >
                   </li>
                 </ul>
               </div>
@@ -337,6 +341,8 @@ const uploadImage = (base64Data) => {
     .catch((error) => {
       // Handle the error here
       console.error(error);
+      resumeAvailiable.value = false;
+      loading.value = false;
     });
 };
 if (store.resumeUploaded) {
@@ -346,7 +352,7 @@ if (store.resumeUploaded) {
 const fetchJobs = async () => {
   loading.value = true;
   try {
-    const response = await axios.get("http://localhost:3000/search", {
+    const response = await axios.get("http://localhost:3000/api/v1/jobs", {
       params: {
         engine: "google_jobs",
         api_key:
@@ -356,7 +362,9 @@ const fetchJobs = async () => {
     });
     jobs.value = response.data;
     console.log(jobs.value);
-    loading.value = false;
+    if (!resumeAvailiable) {
+      loading.value = false;
+    }
   } catch (error) {
     console.error("Error fetching jobs:", error);
   }
