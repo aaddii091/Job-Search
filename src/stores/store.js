@@ -17,6 +17,7 @@ export const Storage = defineStore({
     experienceCurrentPosition: "",
     processState: 1,
     resumeUploaded: false,
+    base64Image: "",
 
     // Add more variables as needed
   }),
@@ -60,6 +61,9 @@ export const Storage = defineStore({
     },
     updateResume(newState) {
       this.resumeUploaded = newState;
+    },
+    updateBase64Image(newState) {
+      this.base64Image = newState;
     },
     // Add more actions as needed
   },

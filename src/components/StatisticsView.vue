@@ -301,6 +301,7 @@ const skillsData = ref();
 
 const uploadImage = (base64Data) => {
   loading.value = true;
+
   // Convert the Base64 string to a Blob
   const byteString = atob(base64Data.split(",")[1]);
   const mimeString = base64Data.split(",")[0].split(":")[1].split(";")[0];
@@ -315,7 +316,7 @@ const uploadImage = (base64Data) => {
 
   // Create a FormData object and append the blob as 'image'
   let formData = new FormData();
-  formData.append("image", blob, "image.png"); // 'image.png' is the filename you want to use for the uploaded image
+  formData.append("image", blob, "image.jpeg"); // 'image.png' is the filename you want to use for the uploaded image
 
   // Set the headers for the request
   const config = {
@@ -346,7 +347,9 @@ const uploadImage = (base64Data) => {
     });
 };
 if (store.resumeUploaded) {
-  uploadImage(localStorage.getItem("uploadedImage"));
+  console.log(store.base64Image);
+  uploadImage(store.base64Image);
+  // uploadImage(localStorage.getItem("uploadedImage"));/
 }
 
 const fetchJobs = async () => {
@@ -429,7 +432,7 @@ async function main() {
 main();
 </script>
 
-<style>
+<style scoped>
 .loader-container {
   height: 100%;
   display: flex;

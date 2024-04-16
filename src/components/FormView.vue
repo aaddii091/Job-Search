@@ -251,7 +251,10 @@
               <div
                 class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
               >
-                <div class="text-center">
+                <div
+                  class="text-center"
+                  :class="resumeUploaded ? 'hidden' : 'block'"
+                >
                   <svg
                     class="mx-auto h-12 w-12 text-gray-300"
                     viewBox="0 0 24 24"
@@ -283,6 +286,31 @@
                   <p class="text-xs leading-5 text-gray-600">
                     PNG, JPG, GIF up to 10MB
                   </p>
+                </div>
+                <div
+                  class="text-center uploaded"
+                  :class="resumeUploaded ? 'block' : 'hidden'"
+                >
+                  <svg
+                    class="mx-auto h-12 w-12 text-gray-300"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                    <div
+                      for="resume"
+                      class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                    >
+                      <span>File Uploaded</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -337,7 +365,7 @@
   </div>
 </template>
 <script setup>
-import { computed, onBeforeMount, onMounted, ref } from "vue";
+import { computed, onBeforeMount, onMounted, ref, watchEffect } from "vue";
 import axios from "axios";
 import { Storage } from "../stores/store";
 
@@ -348,6 +376,11 @@ const loading = ref(false);
 const currentStep = ref(1);
 const profiles = ref([]);
 const store = Storage();
+const resumeUploaded = ref(store.resumeUploaded);
+watchEffect(() => {
+  // Update the const resumeUploaded whenever there is a change in store.resumeUploaded
+  resumeUploaded.value = store.resumeUploaded;
+});
 
 function nextStep() {
   if (currentStep.value < 3) {
@@ -385,7 +418,6 @@ function submitPersonalInfo() {
   // store.updateState(formData.state);
   // store.updatePincode(formData.pincode);
 
-  // Move to next step
   nextStep();
   console.log(store.firstName);
 }
@@ -410,20 +442,59 @@ function submitCareerInfo() {
   // Move to next step
   nextStep();
 }
-
-function fileUpload(event) {
+async function fileUpload(event) {
   store.updateResume(true);
   console.log(event);
   changeTextColor();
   const file = event.target.files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    const base64Image = reader.result;
-    localStorage.setItem("uploadedImage", base64Image);
-  };
-  reader.readAsDataURL(file);
+  // Check if the uploaded file is a PDF
+  if (file.type === "application/pdf") {
+    loading.value = true;
+    console.log("converting");
+    try {
+      const formData = new FormData();
+      formData.append("pdfFile", file);
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/convert",
+        formData
+      );
+      const blob = new Blob([response.data], { type: "image/jpg" });
+
+      // Create an object URL for the blob object
+      const imageUrl = URL.createObjectURL(blob);
+
+      const img = document.createElement("img");
+      img.src = imageUrl;
+      document.body.appendChild(img);
+
+      console.log(imageUrl);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = function () {
+        const base64data = reader.result;
+        // localStorage.setItem("uploadedImage", base64data);
+        store.updateBase64Image(base64data);
+        console.log(base64data);
+        loading.value = false;
+      };
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to convert PDF. Please try again later.");
+      loading.value = false;
+    }
+  } else {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64Image = reader.result;
+      store.updateBase64Image(base64Image);
+    };
+    reader.readAsDataURL(file);
+  }
 }
 
 function changeTextColor() {
