@@ -355,7 +355,7 @@ if (store.resumeUploaded) {
 const fetchJobs = async () => {
   loading.value = true;
   try {
-    const response = await axios.get("https://tj-server.edvantalabs.com/api/v1/jobs", {
+    const response = await axios.get("https://leap-engine.edvantalabs.com/api/v1/jobs", {
       params: {
         engine: "google_jobs",
         api_key:

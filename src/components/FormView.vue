@@ -457,7 +457,7 @@ async function fileUpload(event) {
       const formData = new FormData();
       formData.append("pdfFile", file);
       const response = await axios.post(
-        "https://tj-server.edvantalabs.com/api/v1/convert",
+        "https://leap-engine.edvantalabs.com/api/v1/convert",
         formData
       );
       const blob = new Blob([response.data], { type: "image/jpg" });
